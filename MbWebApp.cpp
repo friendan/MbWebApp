@@ -4,12 +4,13 @@
 
 mbWebView MB_CALL_TYPE handleCreateView(mbWebView webView, void* param, mbNavigationType navigationType, const utf8* url, const mbWindowFeatures* windowFeatures)
 {
-    mbWebView mbView = mbCreateWebWindow(MB_WINDOW_TYPE_POPUP, NULL, 110, 60, 600, 700);
+    /*mbWebView mbView = mbCreateWebWindow(MB_WINDOW_TYPE_POPUP, NULL, 110, 60, 600, 700);
     ::mbOnCreateView(mbView, handleCreateView, nullptr);
     ::mbSetNavigationToNewWindowEnable(mbView, true);
     ::mbSetCspCheckEnable(mbView, true);
     ::mbShowWindow(mbView, TRUE);
-    return mbView;
+    return mbView;*/
+    return webView;
 }
 
 static BOOL MB_CALL_TYPE handleLoadUrlBegin(mbWebView webView, void* param, const char* url, void* job)
@@ -61,7 +62,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ::mbOnJsQuery(mbView, onJsQueryCallback, nullptr);
     ::mbSetDebugConfig(mbView, "ncHittestPaddingWidth", "2"); // 设置边框边缘多长为可拉伸
 
-    const char* url ="https://www.bilibili.com/";
+    //const char* url ="https://www.bilibili.com/";
+    const char* url = "https://www.iqiyi.com/";
     ::mbLoadURL(mbView, url); // 通过url加载网页
     //::mbLoadHtmlWithBaseUrl(mbView, kHtmlTestStr, "file:///test.html"); // 通过字符串加载html
     ::mbShowWindow(mbView, TRUE);
