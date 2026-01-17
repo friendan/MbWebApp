@@ -1,3 +1,4 @@
 MbWebApp
 /build/*.pdb
 /build/MbWebApp.exe
+/build/mb132_x64.dll
