@@ -1,6 +1,9 @@
 ﻿#include "framework.h"
 #include "MbWebApp.h"
 #include "mb.h"
+#include<string>
+#include<iostream>
+#include<fstream>
 
 mbWebView MB_CALL_TYPE handleCreateView(mbWebView webView, void* param, mbNavigationType navigationType, const utf8* url, const mbWindowFeatures* windowFeatures)
 {
@@ -49,6 +52,27 @@ BOOL MB_CALL_TYPE onCloseCallback(mbWebView webView, void* param, void* unuse)
     return TRUE; // 当真实窗口模式下收到WM_CLOSE消息时触发此回调。可通过在回调中返回false来拒绝关闭窗口
 }
 
+void MB_CALL_TYPE onDocumentReadyCallback(mbWebView webView, void* param, mbWebFrameHandle frameId)
+{
+    OutputDebugStringA("onDocumentReadyCallback\n");
+    const  utf8* url = mbGetUrl(webView);
+    OutputDebugStringA(url);
+    OutputDebugStringA("\n");
+    mbStringPtr srcHtml = mbGetSourceSync(webView);
+    size_t strLen = mbGetStringLen(srcHtml);
+    const utf8* html = mbGetString(srcHtml);
+    std::string shtml(html, strLen);
+    OutputDebugStringA(shtml.c_str());
+
+    std::ofstream file("aqy.html", std::ios::out | std::ios::binary|std::ios::trunc);
+    if (file.is_open()) {
+        file.write(shtml.data(), shtml.size());
+        file.flush();
+        file.close();
+    }
+
+}
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -68,6 +92,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ::mbOnJsQuery(mbView, onJsQueryCallback, nullptr);
     ::mbSetDebugConfig(mbView, "ncHittestPaddingWidth", "2"); // 设置边框边缘多长为可拉伸
     ::mbOnClose(mbView, onCloseCallback, NULL);
+    ::mbOnDocumentReady(mbView, onDocumentReadyCallback, NULL);
 
     //const char* url ="https://www.bilibili.com/";
     const char* url = "https://www.iqiyi.com/";
