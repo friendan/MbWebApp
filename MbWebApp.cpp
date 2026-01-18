@@ -43,6 +43,12 @@ void MB_CALL_TYPE onJsQueryCallback(mbWebView webView, void* param, mbJsExecStat
     mbResponseQuery(webView, queryId, customMsg, "I am response");
 }
 
+BOOL MB_CALL_TYPE onCloseCallback(mbWebView webView, void* param, void* unuse)
+{
+    mbExitMessageLoop();
+    return TRUE; // 当真实窗口模式下收到WM_CLOSE消息时触发此回调。可通过在回调中返回false来拒绝关闭窗口
+}
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -61,6 +67,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ::mbOnCreateView(mbView, handleCreateView, nullptr);
     ::mbOnJsQuery(mbView, onJsQueryCallback, nullptr);
     ::mbSetDebugConfig(mbView, "ncHittestPaddingWidth", "2"); // 设置边框边缘多长为可拉伸
+    ::mbOnClose(mbView, onCloseCallback, NULL);
 
     //const char* url ="https://www.bilibili.com/";
     const char* url = "https://www.iqiyi.com/";
