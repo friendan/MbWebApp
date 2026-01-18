@@ -62,15 +62,39 @@ void MB_CALL_TYPE onDocumentReadyCallback(mbWebView webView, void* param, mbWebF
     size_t strLen = mbGetStringLen(srcHtml);
     const utf8* html = mbGetString(srcHtml);
     std::string shtml(html, strLen);
-    OutputDebugStringA(shtml.c_str());
+    //OutputDebugStringA(shtml.c_str());
 
-    std::ofstream file("aqy.html", std::ios::out | std::ios::binary|std::ios::trunc);
-    if (file.is_open()) {
-        file.write(shtml.data(), shtml.size());
-        file.flush();
-        file.close();
-    }
+    //std::ofstream file("aqy.html", std::ios::out | std::ios::binary|std::ios::trunc);
+    //if (file.is_open()) {
+    //    file.write(shtml.c_str(), shtml.size());
+    //    file.flush();
+    //    file.close();
+    //}
 
+}
+
+void MB_CALL_TYPE onLoadUrlEndCallback(mbWebView webView, void* param, const char* url, void* job, void* buf, int len)
+{
+    OutputDebugStringA("onLoadUrlEndCallback\n");
+    OutputDebugStringA(url);
+    OutputDebugStringA("\n");
+   /* mbStringPtr srcHtml = mbGetSourceSync(webView);
+    size_t strLen = mbGetStringLen(srcHtml);
+    const utf8* html = mbGetString(srcHtml);
+    std::string shtml(html, strLen);*/
+    //OutputDebugStringA(shtml.c_str());
+}
+
+void MB_CALL_TYPE onLoadingFinishCallback(mbWebView webView, void* param, mbWebFrameHandle frameId, const utf8* url, mbLoadingResult result, const utf8* failedReason)
+{
+    OutputDebugStringA("onLoadingFinishCallback\n");
+    OutputDebugStringA(url);
+    OutputDebugStringA("\n");
+ /*   mbStringPtr srcHtml = mbGetSourceSync(webView);
+    size_t strLen = mbGetStringLen(srcHtml);
+    const utf8* html = mbGetString(srcHtml);
+    std::string shtml(html, strLen);*/
+    //OutputDebugStringA(shtml.c_str());
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -93,9 +117,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ::mbSetDebugConfig(mbView, "ncHittestPaddingWidth", "2"); // 设置边框边缘多长为可拉伸
     ::mbOnClose(mbView, onCloseCallback, NULL);
     ::mbOnDocumentReady(mbView, onDocumentReadyCallback, NULL);
+    ::mbOnLoadUrlEnd(mbView, onLoadUrlEndCallback, NULL);
+    ::mbOnLoadingFinish(mbView, onLoadingFinishCallback, NULL);
 
     //const char* url ="https://www.bilibili.com/";
-    const char* url = "https://www.iqiyi.com/";
+    //const char* url = "https://www.iqiyi.com/";
+    const char* url = "https://www.baidu.com/";
+
     ::mbLoadURL(mbView, url); // 通过url加载网页
     //::mbLoadHtmlWithBaseUrl(mbView, kHtmlTestStr, "file:///test.html"); // 通过字符串加载html
     ::mbShowWindow(mbView, TRUE);
