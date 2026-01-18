@@ -5,6 +5,8 @@
 #include<iostream>
 #include<fstream>
 
+void MB_CALL_TYPE onGetSourceCallback(mbWebView webView, void* param, const utf8* mhtml);
+
 mbWebView MB_CALL_TYPE handleCreateView(mbWebView webView, void* param, mbNavigationType navigationType, const utf8* url, const mbWindowFeatures* windowFeatures)
 {
     /*mbWebView mbView = mbCreateWebWindow(MB_WINDOW_TYPE_POPUP, NULL, 110, 60, 600, 700);
@@ -64,6 +66,8 @@ void MB_CALL_TYPE onDocumentReadyCallback(mbWebView webView, void* param, mbWebF
     std::string shtml(html, strLen);
     //OutputDebugStringA(shtml.c_str());
 
+    mbGetSource(webView, onGetSourceCallback, NULL);
+
     //std::ofstream file("aqy.html", std::ios::out | std::ios::binary|std::ios::trunc);
     //if (file.is_open()) {
     //    file.write(shtml.c_str(), shtml.size());
@@ -95,6 +99,13 @@ void MB_CALL_TYPE onLoadingFinishCallback(mbWebView webView, void* param, mbWebF
     const utf8* html = mbGetString(srcHtml);
     std::string shtml(html, strLen);*/
     //OutputDebugStringA(shtml.c_str());
+}
+
+void MB_CALL_TYPE onGetSourceCallback(mbWebView webView, void* param, const utf8* mhtml)
+{
+    OutputDebugStringA("onGetSourceCallback\n");
+    //OutputDebugStringA(mhtml);
+    OutputDebugStringA("\n");
 }
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
