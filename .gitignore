@@ -2,3 +2,8 @@ MbWebApp
 /build/*.pdb
 /build/MbWebApp.exe
 /build/mb132_x64.dll
+LocalStorage
+/build/cookies.dat
+/build/cookies.dat.3SP79c03.tmp
+/build/cookies.dat.Ngfxvpy0.tmp
+/build/debug.log
