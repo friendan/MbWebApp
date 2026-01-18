@@ -108,6 +108,21 @@ void MB_CALL_TYPE onGetSourceCallback(mbWebView webView, void* param, const utf8
     OutputDebugStringA("\n");
 }
 
+BOOL MB_CALL_TYPE onNetResponseCallback(mbWebView webView, void* param, const utf8* url, mbNetJob job)
+{
+    OutputDebugStringA("onNetResponseCallback\n");
+    const  utf8* url2 = mbGetUrl(webView);
+    OutputDebugStringA(url);
+    OutputDebugStringA("\n");
+    //mbGetSource(webView, onGetSourceCallback, NULL);
+  /*  mbStringPtr srcHtml = mbGetSourceSync(webView);
+    size_t strLen = mbGetStringLen(srcHtml);
+    const utf8* html = mbGetString(srcHtml);
+    std::string shtml(html, strLen);*/
+    //OutputDebugStringA(shtml.c_str());
+    return TRUE;
+}
+
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
                      _In_opt_ HINSTANCE hPrevInstance,
                      _In_ LPWSTR    lpCmdLine,
@@ -130,6 +145,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     ::mbOnDocumentReady(mbView, onDocumentReadyCallback, NULL);
     ::mbOnLoadUrlEnd(mbView, onLoadUrlEndCallback, NULL);
     ::mbOnLoadingFinish(mbView, onLoadingFinishCallback, NULL);
+    ::mbNetOnResponse(mbView, onNetResponseCallback, NULL);
 
     //const char* url ="https://www.bilibili.com/";
     //const char* url = "https://www.iqiyi.com/";
